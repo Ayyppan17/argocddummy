@@ -7,12 +7,12 @@ spec:
   generators:
     - list:
         elements:
-          - name: dev
-            namespace: dev
+          - name: demo
+            namespace: demo
             url: https://kubernetes.default.svc
-          - name: prod
-            namespace: prod
-            url: https://kubernetes.default.svc
+          - name: np
+            namespace: np
+            url: https://aksnp-dns-dag8atyj.hcp.eastus.azmk8s.io:443
   template:
     metadata:
       # each generated Application will be named: <name>-nginx
