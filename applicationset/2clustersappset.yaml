@@ -27,7 +27,7 @@ spec:
         targetRevision: 22.5.5
         helm:
           values: |
-            replicaCount: 2
+            replicaCount: 1
             service:
               type: ClusterIP
       destination:
