@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: nginx-helm-multienv
+  namespace: default
+spec:
+  generators:
+    - list:
+        elements:
+          - name: dev
+            namespace: dev
+            url: https://kubernetes.default.svc
+          - name: prod
+            namespace: prod
+            url: https://kubernetes.default.svc
+  template:
+    metadata:
+      # each generated Application will be named: <name>-nginx
+      name: '{{name}}-nginx'
+    spec:
+      project: default
+      # Helm chart source (Bitnami public Helm repo)
+      source:
+        repoURL: 'https://charts.bitnami.com/bitnami'
+        chart: nginx
+        # targetRevision can be pinned if required
+        targetRevision: 22.5.5
+        helm:
+          values: |
+            replicaCount: 2
+            service:
+              type: ClusterIP
+      destination:
+        server: '{{url}}'
+        namespace: '{{namespace}}'
+      # optional: enable automated sync with prune + selfHeal for the demo
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
